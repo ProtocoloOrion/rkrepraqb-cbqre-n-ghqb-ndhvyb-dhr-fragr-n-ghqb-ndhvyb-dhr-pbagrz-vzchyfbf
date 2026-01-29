@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INIT_SEQUENCE</title>
+
+  <style>
+    body {
+      background-color: #000;
+      color: #e6d9ff;
+      font-family: "Courier New", monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .fase {
+      display: none;
+      max-width: 90%;
+    }
+
+    .fase.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: #ff4fd8;
+      text-shadow: 0 0 8px #ff4fd8;
+    }
+
+    p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      color: #b983ff;
+      margin-bottom: 1.2rem;
+    }
+
+    input {
+      padding: 0.6rem;
+      width: 80%;
+      background: #050505;
+      border: 1px solid #3a003a;
+      color: #ffb3ff;
+      text-align: center;
+      font-family: "Courier New", monospace;
+    }
+
+    input::placeholder {
+      color: #6f4a8e;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1.5rem;
+      background: transparent;
+      border: 1px solid #ff4fd8;
+      color: #ff4fd8;
+      cursor: pointer;
+      font-family: "Courier New", monospace;
+      box-shadow: 0 0 10px rgba(255, 79, 216, 0.4);
+    }
+
+    button:hover {
+      background: #ff4fd8;
+      color: #000;
+    }
+
+    .glitch {
+      animation: flicker 2.5s infinite;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.85; }
+      60% { opacity: 0.4; }
+      70% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- FASE 1 -->
+  <div class="fase active" id="fase1">
+    <p class="glitch" id="fase1Texto">
+      &gt; before_action.exe<br>
+      &gt; internal_trigger.detected
+    </p>
+
+    <h1 id="fase1Pergunta">QUAL a chave?</h1>
+
+    <input id="resposta1" placeholder="input_required">
+    <br>
+
+    <button id="botaoFase1" onclick="verificarFase1()">EXECUTAR</button>
+
+    <div id="revelacaoVigenere" style="display:none; margin-top:1.5rem;">
+      <p style="color:#ff4fd8; font-weight:bold; text-shadow:0 0 8px #ff4fd8;">
+        VIGENÈRE
+      </p>
+      <p style="color:#b983ff;">
+        CHAVE: <span style="color:#ff4fd8;">DESEJO</span>
+      </p>
+      <button onclick="trocarFase('fase1','fase2')">PROSSEGUIR</button>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="fase" id="fase2">
+    <p class="glitch">
+      &gt; signal.loop.active<br>
+      &gt; repeat_until_understood
+    </p>
+
+    <h1>O QUE GUARDA AQUELE QUE VIGIA?</h1>
+
+    <input id="resposta2" placeholder="listening...">
+    <br>
+
+    <button onclick="verificarFase2()">EXECUTAR</button>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="fase" id="fase3">
+    <p class="glitch">
+      &gt; presence.confirmed<br>
+      &gt; visibility.not_required
+    </p>
+
+    <h1>O QUE ESTÁ AGUARDANDO?</h1>
+
+    <input id="resposta3" placeholder="current_state">
+    <br>
+
+    <button onclick="verificarFase3()">EXECUTAR</button>
+  </div>
+
+  <!-- FASE FINAL -->
+  <div class="fase" id="faseFinal">
+    <p class="glitch">
+      &gt; recursion.detected<br>
+      &gt; subject_identified
+    </p>
+
+    <h1>QUAL É A RESPOSTA DA PERGUNTA?</h1>
+
+    <input id="respostaFinal" placeholder="identify_yourself">
+    <br>
+
+    <button onclick="verificarFinal()">CONFIRMAR</button>
+  </div>
+
+  <script>
+    function normalizar(texto) {
+      return texto.toLowerCase().trim();
+    }
+
+    function trocarFase(atual, proxima) {
+      document.getElementById(atual).classList.remove("active");
+      document.getElementById(proxima).classList.add("active");
+    }
+
+    function verificarFase1() {
+      const r = normalizar(document.getElementById("resposta1").value);
+
+      if (["desejo", "vontade", "querer", "impulso", "tentação"].includes(r)) {
+        document.getElementById("resposta1").style.display = "none";
+        document.getElementById("botaoFase1").style.display = "none";
+        document.getElementById("fase1Pergunta").style.display = "none";
+
+        document.getElementById("fase1Texto").innerHTML =
+          "&gt; cipher.detected<br>&gt; decoding_method.exposed";
+
+        document.getElementById("revelacaoVigenere").style.display = "block";
+      }
+    }
+
+    function verificarFase2() {
+      const r = normalizar(document.getElementById("resposta2").value);
+      if (["sentimento", "descontrole", "desejo", "impulso", "movimento"].includes(r)) {
+        trocarFase("fase2", "fase3");
+      }
+    }
+
+    function verificarFase3() {
+      const r = normalizar(document.getElementById("resposta3").value);
+      if (["tenebris", "a ordem", "aquele que vigia", "tudo"].includes(r)) {
+        trocarFase("fase3", "faseFinal");
+      }
+    }
+
+    function verificarFinal() {
+      const r = normalizar(document.getElementById("respostaFinal").value);
+      if (["tentação", "tentacao", "egoismo", "sentimento"].includes(r)) {
+        document.body.innerHTML = `
+          <h1 style="color:#ff4fd8; text-shadow:0 0 10px #ff4fd8;">
+            PROCESSO CONCLUÍDO
+          </h1>
+          <p style="color:#b983ff;">
+            &gt; you_were_always_the_answer
+          </p>
+        `;
+      }
+    }
+  </script>
+
+</body>
+</html>
