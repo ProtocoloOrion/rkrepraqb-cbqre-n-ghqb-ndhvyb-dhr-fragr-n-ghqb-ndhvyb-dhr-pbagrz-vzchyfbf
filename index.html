@@ -156,6 +156,26 @@
 
     <button onclick="verificarFinal()">CONFIRMAR</button>
   </div>
+<!-- CAMINHO FINAL DE PERGUNTAS -->
+<div class="fase" id="faseCaminho">
+  <p class="glitch">
+    &gt; decision.path.loaded<br>
+    &gt; awaiting.response
+  </p>
+
+  <h1 id="textoCaminho"></h1>
+
+  <div id="botoesCaminho" style="display:none;">
+    <button onclick="responderCaminho('sim')">SIM</button>
+    <button onclick="responderCaminho('nao')">NÃO</button>
+  </div>
+
+  <div id="entradaIdentidade" style="display:none;">
+    <input id="respostaIdentidade" placeholder="diga quem eu sou">
+    <br>
+    <button onclick="verificarIdentidade()">ENVIAR</button>
+  </div>
+</div>
 
   <script>
     function normalizar(texto) {
@@ -170,7 +190,7 @@
     function verificarFase1() {
       const r = normalizar(document.getElementById("resposta1").value);
 
-      if (["desejo", "vontade", "querer", "verdade", "tentação"].includes(r)) {
+      if (["desejo", "vontade", "querer", "impulso", "tentação"].includes(r)) {
         document.getElementById("resposta1").style.display = "none";
         document.getElementById("botaoFase1").style.display = "none";
         document.getElementById("fase1Pergunta").style.display = "none";
@@ -184,7 +204,7 @@
 
     function verificarFase2() {
       const r = normalizar(document.getElementById("resposta2").value);
-      if (["sentimento", "descontrole", "impulsos", "impulso", "movimento"].includes(r)) {
+      if (["sentimento", "descontrole", "desejo", "impulso", "movimento"].includes(r)) {
         trocarFase("fase2", "fase3");
       }
     }
@@ -196,23 +216,240 @@
       }
     }
 
-    function verificarFinal() {
-      const r = normalizar(document.getElementById("respostaFinal").value);
-      if (["tentação", "tentacao", "egoismo", "sentimento", "a serpente", "o caos"].includes(r)) {
-        document.body.innerHTML = `
-          <h1 style="color:#ff4fd8; text-shadow:0 0 10px #ff4fd8;">
-            PROCESSO CONCLUÍDO
-          </h1>
-          <p style="color:#b983ff;">
-            &gt; you_were_always_the_answer
-          </p>
-        `;
-      }
+   function verificarFinal() {
+  const r = normalizar(document.getElementById("respostaFinal").value);
+  if (["tentação", "tentacao", "egoismo", "sentimento"].includes(r)) {
+    document.querySelectorAll(".fase").forEach(f => f.classList.remove("active"));
+
+document.getElementById("faseFinal").innerHTML = `
+  <h1 style="color:#ff4fd8; text-shadow:0 0 10px #ff4fd8;">
+    PROCESSO CONCLUÍDO, DESEJA CONTINUAR?
+  </h1>
+  <p style="color:#b983ff;">
+    &gt; you_were_always_the_answer
+  </p>
+`;
+    setTimeout(() => {
+  document.getElementById("faseCaminho").classList.add("active");
+  mostrarCaminho();
+}, 2500);
+
+  }
+}
+
+
+    /* ===== CAMINHO FINAL ===== */
+
+const caminhoFinal = {
+  inicio: {
+    texto: "VOCÊ DESEJA SEGUIR?",
+    sim: "busca",
+    nao: "ambicao"
+  },
+
+  busca: {
+    texto: "VOCÊ SABE O QUE TE CAÇA, SABE O QUE ESTÁ BUSCANDO?",
+    sim: "identidade",
+    nao: "ambicao"
+  },
+
+  ambicao: {
+    texto: "SUA AMBIÇÃO É FRACA, MAS PODE SE FORTALECER. DESEJA PROTEGER SEUS AMIGOS?",
+    sim: "motivacao",
+    nao: "identidade"
+  },
+
+  motivacao: {
+    texto: "TALVEZ VALHA MEU TEMPO. QUER DAR UM MOTIVO PARA TE CAÇAREM?",
+    sim: "identidade",
+    nao: "identidade"
+  },
+
+  identidade: {
+    texto: "ME DIGA: VOCÊ SABE QUEM EU SOU?",
+    fim: true
+  }
+};
+
+let estadoCaminho = "inicio";
+
+function digitarCaminho(elemento, texto, i = 0) {
+  if (i === 0) elemento.innerHTML = "";
+  if (i < texto.length) {
+    elemento.innerHTML += texto[i];
+    setTimeout(() => digitarCaminho(elemento, texto, i + 1), 35);
+  } else {
+    if (!caminhoFinal[estadoCaminho].fim) {
+      document.getElementById("botoesCaminho").style.display = "block";
+    } else {
+      document.getElementById("entradaIdentidade").style.display = "block";
     }
+  }
+}
+
+function mostrarCaminho() {
+  document.getElementById("botoesCaminho").style.display = "none";
+  document.getElementById("entradaIdentidade").style.display = "none";
+  digitarCaminho(
+    document.getElementById("textoCaminho"),
+    caminhoFinal[estadoCaminho].texto
+  );
+}
+
+function responderCaminho(resp) {
+  estadoCaminho = caminhoFinal[estadoCaminho][resp];
+  mostrarCaminho();
+}
+
+function verificarIdentidade() {
+  const r = normalizar(document.getElementById("respostaIdentidade").value);
+
+  if (["anfitrião", "sangue", "energia", "tentação", "diabo"].includes(r)) {
+
+    document.querySelectorAll(".fase").forEach(f => f.classList.remove("active"));
+    document.getElementById("faseCaminho").classList.add("active");
+
+    setTimeout(() => {
+      mostrarArquivoFinal();
+    }, 1200);
+  }
+}
+
+  const arquivoFinal = `
+perfeito, aqui vai uma ajudinha, espero que sobreviva o suficiente pra entender...
+
+ARQ▋▋▋▋▋▋▋▋▋▋▋▋▋▋
+ID: TNBRS_??_PRJ
+ESTA▉DO: ☒ ☒ ☒
+RECUPERAÇÃO: 19% ▓▓░░░░░░░░
+
+aviso// dados sobrepostos
+aviso// linguagem instável
+aviso// leitura altera o conteúdo
+
+██ não era pra ████ ler isto
+██ se você está lendo, já houve ▓falha▓
+
+cães de s█ngue
+não e█ipe
+não grupo
+n█o são muitos
+
+são o m▉smo
+
+eles não chegam
+eles já estav█m
+
+os sinos
+██ dois ██
+ou talvez
+1 + 1 ≠ 2
+
+espalh▓dos
+paran▉
+áreas ███ que rejeitam mapas
+
+cada sino escu██a
+o outro sonha
+
+medo
+m░d░
+m̷e̷d̷o̷
+
+não é efeito
+é ferram█nta
+
+ruídos controlados
+acidentes incompletos
+histórias que não terminam
+
+as pessoas preenchem o resto
+
+██ trecho repetido detectado ██
+██ checksum inválido ██
+
+UM SÃO TODOS, TODOS SÃO UM, OS DESEJOS EM SINTONIA...
+UM SÃO TODOS, TODOS SÃO UM, OS DESEJOS EM SINTONIA...
+UM SÃO TODOS, TODOS SÃO UM, OS DESEJOS EM SINTONIA...
+
+(parar leitura não interrompe)
+
+os cães
+não lati█
+não mordem
+
+observam
+anotam
+a██ustam
+
+quando o medo cai
+eles empurram
+
+quando sobe demais
+eles silenciam
+
+equilíbrio
+sempre equil▉brio
+
+███ falha neural ███
+
+pensamentos alinhando
+decisões ficando parecidas
+“eu” virando “nós”
+
+não é lavagem
+é ressonância
+
+talvez os sinos
+não queiram soar
+
+talvez
+já estejam
+
+▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉
+último fragmento legível:
+
+se os dois tocarem
+não haverá som
+haverá acordo
+
+e ninguém lembrará
+de ter discordado
+
+ARQUIVO ENCERRADO
+ou não
+integridade: irrelevante
+`;
+function mostrarArquivoFinal() {
+  const fase = document.getElementById("faseCaminho");
+  fase.innerHTML = `
+    <p class="glitch">&gt; arquivo_corrompido.recuperado</p>
+    <pre id="textoArquivo" style="
+      text-align:left;
+      max-width:700px;
+      white-space:pre-wrap;
+      color:#b983ff;
+      font-size:0.85rem;
+    "></pre>
+  `;
+
+  const el = document.getElementById("textoArquivo");
+  let i = 0;
+
+  const intervalo = setInterval(() => {
+    el.innerHTML += arquivoFinal[i] || "";
+    i++;
+    if (i >= arquivoFinal.length) {
+      clearInterval(intervalo);
+    }
+  }, 22);
+}
+
   </script>
 
 </body>
 </html>
+
 
 
 
