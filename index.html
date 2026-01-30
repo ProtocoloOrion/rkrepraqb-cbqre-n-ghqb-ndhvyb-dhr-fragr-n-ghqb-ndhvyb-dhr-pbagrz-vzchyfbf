@@ -304,16 +304,22 @@ function responderCaminho(resp) {
 function verificarIdentidade() {
   const r = normalizar(document.getElementById("respostaIdentidade").value);
 
-  if (["anfitrião", "sangue", "energia", "tentação", "diabo"].includes(r)) {
+  let arquivoEscolhido = arquivosFinais.nulo;
 
-    document.querySelectorAll(".fase").forEach(f => f.classList.remove("active"));
-    document.getElementById("faseCaminho").classList.add("active");
-
-    setTimeout(() => {
-      mostrarArquivoFinal();
-    }, 1200);
+  if (r === "anfitrião" || r === "energia") {
+    arquivoEscolhido = arquivosFinais.anfitriao;
+  } else if (r === "sangue" || r === "tentação") {
+    arquivoEscolhido = arquivosFinais.sangue;
   }
+
+  document.querySelectorAll(".fase").forEach(f => f.classList.remove("active"));
+  document.getElementById("faseCaminho").classList.add("active");
+
+  setTimeout(() => {
+    mostrarArquivo(arquivoEscolhido);
+  }, 1200);
 }
+
 
   const arquivoFinal = `
 perfeito, aqui vai uma ajudinha, espero que sobreviva o suficiente pra entender...
@@ -444,13 +450,275 @@ function mostrarArquivoFinal() {
     }
   }, 22);
 }
+const arquivosFinais = {
+  anfitriao: {
+    id: "CTRL_SYN_01",
+    titulo: "&gt; registro_de_controle.recuperado",
+    conteudo: `
+[inicialização completa
+
+ARQ████████████████
+ID: CTRL_SYN_01
+ESTADO: ESTÁVEL
+DESVIO: 0.7%
+
+nenhuma anomalia crítica detectada
+nenhuma resistência significativa registrada
+
+o sistema não precisou intervir
+
+os padrões se alinharam sozinhos
+
+respostas previsíveis
+decisões coerentes
+tempo de reação dentro do esperado
+
+você chamou isso de escolha
+nós chamamos de convergência
+
+não houve coerção
+não houve correção
+
+apenas ajuste fino
+
+os sinos não tocaram
+porque não foi necessário
+
+quando todos pensam parecido
+o som se torna redundante
+
+controle não é força
+é repetição suficiente para parecer natural
+
+não há inimigos aqui
+não há cães
+não há caça
+
+há continuidade
+
+██ nota administrativa ██
+sujeito demonstra alta compatibilidade
+com protocolos de consenso
+
+recomendação:
+não acordar
+não alertar
+não interromper
+
+manter fluxo
+
+ARQUIVO ENCERRADO
+status: funcionando como previsto
+]
+`
+  },
+
+  sangue: {
+    id: "CONTAM_SYNC_77",
+    titulo: "&gt; relato_de_contaminacao.recuperado",
+    conteudo: `
+[perfeito, aqui vai uma ajudinha, espero que sobreviva o suficiente pra entender...
+
+ARQ▋▋▋▋▋▋▋▋▋▋▋▋▋▋
+ID: TNBRS_??_PRJ
+ESTA▉DO: ☒ ☒ ☒
+RECUPERAÇÃO: 19% ▓▓░░░░░░░░
+
+aviso// dados sobrepostos
+aviso// linguagem instável
+aviso// leitura altera o conteúdo
+
+██ não era pra ████ ler isto
+██ se você está lendo, já houve ▓falha▓
+
+cães de s█ngue
+não e█ipe
+não grupo
+n█o são muitos
+
+são o m▉smo
+
+eles não chegam
+eles já estav█m
+
+os sinos
+██ dois ██
+ou talvez
+1 + 1 ≠ 2
+
+espalh▓dos
+paran▉
+áreas ███ que rejeitam mapas
+
+cada sino escu██a
+o outro sonha
+
+medo
+m░d░
+m̷e̷d̷o̷
+
+não é efeito
+é ferram█nta
+
+ruídos controlados
+acidentes incompletos
+histórias que não terminam
+
+as pessoas preenchem o resto
+
+██ trecho repetido detectado ██
+██ checksum inválido ██
+
+UM SÃO TODOS, TODOS SÃO UM, OS DESEJOS EM SINTONIA...
+UM SÃO TODOS, TODOS SÃO UM, OS DESEJOS EM SINTONIA...
+UM SÃO TODOS, TODOS SÃO UM, OS DESEJOS EM SINTONIA...
+
+(parar leitura não interrompe)
+
+os cães
+não lati█
+não mordem
+
+observam
+anotam
+a██ustam
+
+quando o medo cai
+eles empurram
+
+quando sobe demais
+eles silenciam
+
+equilíbrio
+sempre equil▉brio
+
+███ falha neural ███
+
+pensamentos alinhando
+decisões ficando parecidas
+“eu” virando “nós”
+
+não é lavagem
+é ressonância
+
+talvez os sinos
+não queiram soar
+
+talvez
+já estejam
+
+▉▉▉▉▉▉▉▉▉▉▉▉▉▉▉
+último fragmento legível:
+
+se os dois tocarem
+não haverá som
+haverá acordo
+
+e ninguém lembrará
+de ter discordado
+
+ARQUIVO ENCERRADO
+ou não
+integridade: irrelevante]
+`
+  },
+
+  nulo: {
+    id: "NULL_SYNC",
+    titulo: "&gt; arquivo_nulo.recuperado",
+    conteudo: `
+[erro
+erro
+erro
+
+ARQ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+ID: NULL_SYNC
+ESTADO: INDEFINIDO
+
+conteúdo ausente
+conteúdo recusado
+conteúdo não autorizado
+
+██ tentativa de leitura ██
+██ tentativa de leitura ██
+██ tentativa de leitura ██
+
+nenhum registro encontrado
+
+isso não significa ausência
+significa que não houve consenso suficiente
+para fixar um resultado
+
+você não se alinhou
+mas também não se afastou
+
+ficou entre
+
+os sinos não tocaram
+porque não sabiam qual responder
+
+os cães não avançaram
+porque não havia direção clara
+
+██ comentário sobrescrito ██
+“ele não está fora
+apenas não está dentro”
+
+não há instruções
+não há avisos
+não há próximos passos
+
+isso não é liberdade
+é ruído não resolvido
+
+se você está lendo isto
+não foi previsto
+mas também não foi impedido
+
+registro incompleto
+memória descartável
+identidade não persistente
+
+ARQUIVO ENCERRADO
+ou não
+
+não há checksum
+não há confirmação
+não há eco
+]
+`
+  }
+};
+function mostrarArquivo(arquivo) {
+  const fase = document.getElementById("faseCaminho");
+
+  fase.innerHTML = `
+    <p class="glitch">${arquivo.titulo}</p>
+    <pre style="
+      text-align:left;
+      max-width:700px;
+      white-space:pre-wrap;
+      color:#b983ff;
+      font-size:0.85rem;
+    "></pre>
+  `;
+
+  const el = fase.querySelector("pre");
+  let i = 0;
+
+  const intervalo = setInterval(() => {
+    el.innerHTML += arquivo.conteudo[i] || "";
+    i++;
+    if (i >= arquivo.conteudo.length) {
+      clearInterval(intervalo);
+    }
+  }, 22);
+}
 
   </script>
 
 </body>
 </html>
-
-
 
 
 
