@@ -184,7 +184,7 @@
 
     function verificarFase2() {
       const r = normalizar(document.getElementById("resposta2").value);
-      if (["sentimento", "descontrole", "desejo", "impulso", "movimento"].includes(r)) {
+      if (["sentimento", "descontrole", "impulsos", "impulso", "movimento"].includes(r)) {
         trocarFase("fase2", "fase3");
       }
     }
@@ -213,6 +213,7 @@
 
 </body>
 </html>
+
 
 
 
